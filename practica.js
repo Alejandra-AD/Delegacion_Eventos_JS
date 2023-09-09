@@ -4,8 +4,26 @@ console.log("vinculado");
 
 const carrito = document.getElementById("carrito");
 const template = document.getElementById("template");
-const btnProductos = document.querySelectorAll(".card .btn");
-console.log(btnProductos);
+// const btnProductos = document.querySelectorAll(".card .btn");
+const footer = document.getElementById("footer");
+const templateFooter = document.getElementById("templateFooter"); //
+
+document.addEventListener("click", (e) =>{
+    console.log(e.target.matches(".card .btn-outline-primary"));
+
+    if (e.target.matches(".card .btn-outline-primary")){
+
+        console.log("añadir funcion agregar al carrito");
+    }
+
+    agregarCarrito(e);
+
+    // if (e.target.matches(".border-secundary")) {
+    //     console.log("diste click al elemento hijo");
+    //     }
+
+});
+
 
 //creando el fragment para evitar el reflow
 const fragment = document.createDocumentFragment();
@@ -17,14 +35,17 @@ const objetoCarrito = [];
 
 //funcion agregar productos al carrito
 
-const agregarCarrito = (evento) =>{
+const agregarCarrito = (e) =>{
     // console.log(evento);
-    console.log(evento.target.dataset.fruta); //mostrando en contenido de cada boton
+    console.log(e.target.dataset.fruta); //mostrando en contenido de cada boton
     const producto = { //creando objeto para ir guardando en el array objeto carrito
-        nombre: evento.target.dataset.fruta,
-        id: evento.target.id,
-        cantidad: 1
+        nombre: e.target.dataset.fruta,
+        id: e.target.id,
+        cantidad: 1,
+        precio: parseInt(e.target.dataset.precio)
     };
+
+    console.log(producto);
 
     const index = objetoCarrito.findIndex(item => item.id === producto.id);
     console.log(index);
@@ -32,6 +53,8 @@ const agregarCarrito = (evento) =>{
     if (index !== -1){
        objetoCarrito[index].cantidad++; // si el item en el array objetoCarrito ya se encuenta , la cantidad del item con el mismo index aumenta
        console.log(objetoCarrito[index].cantidad);
+       objetoCarrito[index].precio = objetoCarrito[index].cantidad * producto.precio ;
+       console.log(objetoCarrito[index].precio);
     }else{
         objetoCarrito.push(producto);//caso contrario, no se encuentra producto en el carrito. Entonces se agrega
     };
@@ -44,10 +67,10 @@ const agregarCarrito = (evento) =>{
 
 // evento click boton agregar
 
-btnProductos.forEach(btn =>{
-    // console.log(btn);
-    btn.addEventListener("click",agregarCarrito);//agregando evento a cada boton
-});
+// btnProductos.forEach(btn =>{
+//     // console.log(btn);
+//     btn.addEventListener("click",agregarCarrito);//agregando evento a cada boton
+// });
 
 //pintar carrito
 
